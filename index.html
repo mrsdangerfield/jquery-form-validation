@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form id="validation">
+
+		<label id="firstname">First name: 
+			<input type="text" name="firstname" id="">
+		</label><br/>	
+		<label id="lastname">Last name:
+			<input type="text" name="lastname" id="">
+		</label><br/>	
+		<label id="email">E-mail: 
+			<input type="email" name="email" id="">
+		</label><br/>	
+		<label id="confirmemail">Confirm E-mail: 
+			<input type="confirmemail" name="confirmemail" id="">
+		</label><br/>	
+		<label id="password">Password:
+			<input type="password" name="password" id="">
+		</label><br/>	
+		<label id="telephone">Telephone number:
+			<input type="text" name="telephone" id="">
+		</label><br/>	
+		<label id="gender">Select gender:<br/>	
+			<input type="radio" name="gender" value="male">Male<br>
+			<input type="radio" name="gender" value="female">Female<br />
+		</label><br/>	
+		<!--
+		<input type="checkbox" name="vehicle" value="Bike">I have a bike<br>
+		<input type="checkbox" name="vehicle" value="Car">I have a car <br />
+		<br />-->
+		<input type="submit" class="submit">
+
+	</form>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		
+		var validateForm = function(){
+
+			//initialise all of the values as variables
+			var firstName = $("input[name='firstname']").val(),
+				lastName = $("input[name='lastname']").val(),
+				email = $("input[name='email']").val(),
+        		emailConfirm = $("input[name='confirmemail']").val(),
+        		password = $("input[name='password']").val(),
+        		telephone = $("input[name='telephone']").val();
+
+        	//Intialise the regex
+        	var nameReg = /^[A-Za-z]+$/,
+    			numberReg =  /^[0-9]+$/,
+    			emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    			//generic password: upper-case, lower-case, number/special character, and min 8 characters
+    			passwordReg = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+        	//Initialise arrays to store the variables
+
+        	var inputVal = new Array(firstName, lastName, email, emailConfirm, password, telephone);
+
+    		var inputMessage = new Array("first name", "last name", "email address", "confirm email address", "password", "telephone number");
+
+			//Check to see if the inputs are empty and produce the error messages
+
+			$('.error').hide();
+
+			if(inputVal[0] == ""){
+            	$('#firstname').after('<span class="error"> Please enter your ' + inputMessage[0] + '</span>');
+	        } 
+	        else if(!nameReg.test(firstName)){
+	            $('#firstname').after('<span class="error"> Letters only</span>');
+	        }
+
+			if(inputVal[1] == ""){
+            	$('#lastname').after('<span class="error"> Please enter your ' + inputMessage[1] + '</span>');
+	        } 
+	        else if(!nameReg.test(lastName)){
+	            $('#lastname').after('<span class="error"> Letters only</span>');
+	        }
+
+	        if(inputVal[2] == ""){
+	            $('#email').after('<span class="error"> Please enter your ' + inputMessage[2] + '</span>');
+	        }
+	        else if(!emailReg.test(email)){
+	            $('#email').after('<span class="error"> Please enter a valid email address</span>');
+	        }
+
+	        if(inputVal[3] == ""){
+	            $('#confirmemail').after('<span class="error"> Please enter your ' + inputMessage[3] + '</span>');
+	        }
+	        else if(!emailReg.test(email)){
+	            $('#confirmemail').after('<span class="error"> Please enter a valid email address</span>');
+	        }
+	        else if(email != emailConfirm){
+	       		$('#confirmemail').after('<span class="error"> Please can you make sure the email addresses match</span>');
+	        }
+
+	        if(inputVal[4] == ""){
+	            $('#password').after('<span class="error"> Please enter your ' + inputMessage[4] + '</span>');
+	        } 
+	        else if(!emailReg.test(password)){
+	            $('#password').after('<span class="error"> Please enter a valid email password</span>');
+	        }
+
+	        if(inputVal[5] == ""){
+	            $('#telephone').after('<span class="error"> Please enter your ' + inputMessage[5] + '</span>');
+	        } 
+	        else if(!numberReg.test(telephone)){
+	            $('#telephone').after('<span class="error"> Numbers only</span>');
+	        }
+
+	        //Gender radion button validation
+
+	        if ($("input[name='gender']:checked").length == 0) {
+	        	$('#gender').after('<span class="error"> Please enter your gender</span>');
+	        }
+
+
+	    };
+
+		$('.submit').on('click',function(e){
+		    validateForm();  
+		   	e.preventDefault();
+		});
+
+	});
+
+</script>
+	
+</body>
+</html>
